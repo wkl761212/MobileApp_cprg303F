@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {useState} from 'react';
 
 function Section({ children, title }) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -53,7 +54,11 @@ function Section({ children, title }) {
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-
+  const [tasks, setTasks] = useState([
+  'Do laundry',
+    'Go to gym',
+    'Walk dog'
+  ])
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -67,28 +72,11 @@ function App() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.jsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+
+        <ToDoList tasks={tasks} />
       </ScrollView>
     </SafeAreaView>
+
   );
 }
 
