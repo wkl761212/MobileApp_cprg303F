@@ -40,17 +40,25 @@ const styles = StyleSheet.create({
     },
 });
 
-const ToDoForm = ({ onAddTask }) => {
-  const [newTask, setNewTask] = useState('');
+const ToDoForm = ({ addTask }) => {
+  const [taskText, setTaskText] = useState('');
 
   return (
     <View style={styles.form}>
             <TextInput
               style={styles.input}
               placeholder="Add a new task..."
+              onChangeText={(text) => setTaskText(text)}
+              value={taskText}
             />
-            <Button title="Add" />
+             <Button title="Add Task" onPress={() => {
+                    if(taskText.trim().length > 0) {
+                      addTask(taskText.trim());
+                      setTaskText('');
+                    }
+                  }} />
           </View>
+
   );
 };
 

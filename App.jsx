@@ -59,6 +59,10 @@ function App() {
     'Go to gym',
     'Walk dog'
   ])
+  const addTask = (taskText) => {
+    setTasks([...tasks, taskText]);
+  };
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -74,6 +78,7 @@ function App() {
         style={backgroundStyle}>
 
         <ToDoList tasks={tasks} />
+        <ToDoForm addTask={addTask} />
       </ScrollView>
     </SafeAreaView>
 
