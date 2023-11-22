@@ -4,8 +4,10 @@
  *
  * @format
  */
-import ToDoList from './ToDoList';
-import ToDoForm from './ToDoForm';
+import ToDoList from './components/ToDoList';
+import ToDoForm from './components/ToDoForm';
+import AboutScreen from './screens/AboutScreen';
+import HomeScreen from './screens/HomeScreen';
 import React from 'react';
 import {
   SafeAreaView,
@@ -16,44 +18,15 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import {useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-function Section({ children, title }) {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const Stack = createStackNavigator();
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+export default function App() {
+  
+  
   const [tasks, setTasks] = useState([
   'Do laundry',
     'Go to gym',
@@ -63,25 +36,22 @@ function App() {
     setTasks([...tasks, taskText]);
   };
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-
-        <ToDoList tasks={tasks} />
-        <ToDoForm addTask={addTask} />
-      </ScrollView>
-    </SafeAreaView>
-
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen}/>
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator>
+      
+      <SafeAreaView style={styles.safeArea}>       
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <ToDoList tasks={tasks} />
+          <ToDoForm addTask={addTask} />
+        </ScrollView>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
@@ -102,7 +72,11 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  safeArea: {
+    flex: 1,
+    paddingTop: 0, // Adjust as needed
+  }
 });
 
-export default App;
+
 
