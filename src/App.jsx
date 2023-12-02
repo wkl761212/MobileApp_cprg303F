@@ -4,10 +4,10 @@
  *
  * @format
  */
-import ToDoList from './components/ToDoList';
-import ToDoForm from './components/ToDoForm';
-import AboutScreen from './screens/AboutScreen';
-import HomeScreen from './screens/HomeScreen';
+import ToDoList from '../components/ToDoList';
+import ToDoForm from '../components/ToDoForm';
+import AboutScreen from '../screens/AboutScreen';
+import HomeScreen from '../screens/HomeScreen';
 import React from 'react';
 import {
   SafeAreaView,
@@ -21,6 +21,7 @@ import {
 import {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import ChuckNorrisFact from './ChuckNorrisFact';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,6 @@ export default function App() {
   
   
   const [tasks, setTasks] = useState([
-  'Do laundry',
     'Go to gym',
     'Walk dog'
   ])
@@ -43,15 +43,21 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="About" component={AboutScreen} />
+        
       </Stack.Navigator>
       
-      <SafeAreaView style={styles.safeArea}>       
+      <SafeAreaView style={styles.safeArea}> 
+         
         <ScrollView contentInsetAdjustmentBehavior="automatic">
+          
           <ToDoList tasks={tasks} />
           <ToDoForm addTask={addTask} />
+          
         </ScrollView>
+        
       </SafeAreaView>
     </NavigationContainer>
+         
   );
 }
 

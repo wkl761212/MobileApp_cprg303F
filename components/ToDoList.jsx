@@ -44,11 +44,9 @@ const ToDoList = ({ tasks }) => {
     <SafeAreaView>
           <ScrollView>
             {tasks.map((task, index) => (
-                      <Pressable key={index}>
-                        <View style={styles.task}>
-                          <Text style={styles.taskText}>{task}</Text>
-                        </View>
-                      </Pressable>
+                      <View key={index} style={styles.task}>
+                      <Text style={styles.taskText}>{task}</Text>
+                      </View>
                     ))}
           </ScrollView>
 

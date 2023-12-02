@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,56 +10,48 @@ import {
   Button
 } from 'react-native';
 
-// Add the styles that you need for your form
-const styles = StyleSheet.create({
-  task: {
-      padding: 10,
-      borderBottomWidth: 1,
-      borderColor: '#ccc',
-    },
-    completed: {
-      backgroundColor: '#e0e0e0',
-    },
-    taskText: {
-      fontSize: 16,
-    },
-    form: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginHorizontal: 20,
-      marginTop: 20,
-    },
-    input: {
-      flex: 1,
-      borderWidth: 1,
-      borderColor: '#ccc',
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      marginRight: 10,
-    },
-});
-
 const ToDoForm = ({ addTask }) => {
   const [taskText, setTaskText] = useState('');
+  const [tasks, setTasks] = useState([]);
+  const [randomTask, setRandomTask] = useState('');
+
+  useEffect(() => {
+    fetch('./data/tasks.json') // Adjust the path as per your folder structure
+      .then(response => response.json())
+      .then(data => setTasks(data))
+      .catch(error => console.error(error));
+  }, []);
+
+  const handleAddTask = () => {
+    if (taskText.trim().length > 0) {
+      addTask(taskText.trim());
+      setTaskText('');
+    }
+  };
+
+  const handleGenerateRandomTask = () => {
+    const randomIndex = Math.floor(Math.random() * tasks.length);
+    const randomTask = tasks[randomIndex];
+    setRandomTask(randomTask);
+    setTaskText(randomTask); // Set the selected task in the input field
+  };
 
   return (
-    <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              placeholder="Add a new task..."
-              onChangeText={(text) => setTaskText(text)}
-              value={taskText}
-            />
-             <Button title="Add Task" onPress={() => {
-                    if(taskText.trim().length > 0) {
-                      addTask(taskText.trim());
-                      setTaskText('');
-                    }
-                  }} />
-          </View>
-
+    <View>
+      <TextInput
+        placeholder="Add a new task..."
+        onChangeText={(text) => setTaskText(text)}
+        value={taskText}
+      />
+      <Button title="Add Task" onPress={handleAddTask} />
+      <Button title="Generate Random Task" onPress={handleGenerateRandomTask} />
+      {randomTask && <Text>{randomTask}</Text>}
+      
+    </View>
   );
 };
 
 export default ToDoForm;
+
+
+  
